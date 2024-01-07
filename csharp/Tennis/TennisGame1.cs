@@ -35,7 +35,6 @@ namespace Tennis
 
         public string GetScore()
         {
-            var score = "";
             if (_score1 == _score2)
             {
                 return CheckEqualScoreValue();
@@ -43,7 +42,7 @@ namespace Tennis
 
             if ((_score1 >= 4 || _score2 >= 4) && (_score1 - _score2 == -1 || _score1 - _score2 == 1))
             {
-                return CheckAdvantageScoreValue(score);
+                return CheckAdvantageScoreValue();
             }
 
             if (_score1 >= 4 || _score2 >= 4)
@@ -54,23 +53,17 @@ namespace Tennis
             return CheckRunningScoreValue();
         }
 
-        private string CheckAdvantageScoreValue(string score)
+        private string CheckAdvantageScoreValue()
         {
-            var minusResult = _score1 - _score2;
-            if (minusResult == 1)
+            string[] scoreNames =
             {
-                score = $"Advantage {_player1Name}";
-                return score;
-            }
+                "Advantage " + _player1Name,
+                "Advantage " + _player2Name
+            };
 
-            if (minusResult == -1)
-            {
-                score = $"Advantage {_player2Name}";
-                return score;
-            }
-
-            return score;
+            return _score1 - _score2 == 1 ? scoreNames[0] : scoreNames[1];
         }
+
 
         private string CheckRunningScoreValue()
         {
