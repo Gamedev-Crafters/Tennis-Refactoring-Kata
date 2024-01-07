@@ -72,17 +72,9 @@ namespace Tennis
 
         private string CheckEqualScoreValue()
         {
-            string score;
-            if (_score1 == 0)
-                score = "Love-All";
-            else if (_score1 == 1)
-                score = "Fifteen-All";
-            else if (_score1 == 2)
-                score = "Thirty-All";
-            else
-                score = "Deuce";
-
-            return score;
+            string[] scoreNames = { "Love-All", "Fifteen-All", "Thirty-All", "Deuce" };
+            
+            return _score1 <= 2 ? scoreNames[_score1] : scoreNames[^1];
         }
     }
 }
