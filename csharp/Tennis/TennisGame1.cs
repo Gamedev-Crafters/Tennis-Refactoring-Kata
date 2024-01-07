@@ -38,17 +38,37 @@ namespace Tennis
             var score = "";
             if (_score1 == _score2)
             {
-                score = CheckEqualScoreValue();
-                return score;
+                return CheckEqualScoreValue();
+            }
+
+            if ((_score1 >= 4 || _score2 >= 4) && (_score1 - _score2 == -1 || _score1 - _score2 == 1))
+            {
+                return CheckAdvantageScoreValue(score);
             }
 
             if (_score1 >= 4 || _score2 >= 4)
             {
-                score = CheckWinningScoreValue();
+                return CheckWinningScoreValue();
+            }
+
+            return CheckRunningScoreValue();
+        }
+
+        private string CheckAdvantageScoreValue(string score)
+        {
+            var minusResult = _score1 - _score2;
+            if (minusResult == 1)
+            {
+                score = $"Advantage {_player1Name}";
                 return score;
             }
 
-            score = CheckRunningScoreValue();
+            if (minusResult == -1)
+            {
+                score = $"Advantage {_player2Name}";
+                return score;
+            }
+
             return score;
         }
 
@@ -58,22 +78,22 @@ namespace Tennis
 
             return scoreNames[_score1] + "-" + scoreNames[_score2];
         }
-
+        
         private string CheckWinningScoreValue()
         {
-            string score;
-            var minusResult = _score1 - _score2;
-            if (minusResult == 1) score = $"Advantage {_player1Name}";
-            else if (minusResult == -1) score = $"Advantage {_player2Name}";
-            else if (minusResult >= 2) score = $"Win for {_player1Name}";
-            else score = $"Win for {_player2Name}";
-            return score;
+            string[] scoreNames =
+            {
+                "Win for " + _player1Name,
+                "Win for " + _player2Name
+            };
+
+            return _score1 - _score2 >= 2 ? scoreNames[0] : scoreNames[1];
         }
 
         private string CheckEqualScoreValue()
         {
             string[] scoreNames = { "Love-All", "Fifteen-All", "Thirty-All", "Deuce" };
-            
+
             return _score1 <= 2 ? scoreNames[_score1] : scoreNames[^1];
         }
     }
