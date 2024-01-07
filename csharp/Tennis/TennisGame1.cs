@@ -22,7 +22,7 @@ namespace Tennis
                 AddPointToPlayer1();
                 return;
             }
-            
+
             AddPointToPlayer2();
         }
 
@@ -32,63 +32,82 @@ namespace Tennis
 
         private void AddPointToPlayer1() => _score1 += 1;
 
-        
+
         public string GetScore()
         {
-            string score = "";
-            var tempScore = 0;
+            var score = "";
             if (_score1 == _score2)
             {
-                switch (_score1)
+                score = CheckEqualScoreValue();
+                return score;
+            }
+
+            if (_score1 >= 4 || _score2 >= 4)
+            {
+                score = CheckWinningScoreValue();
+                return score;
+            }
+
+            score = CheckRunningScoreValue(score);
+            return score;
+        }
+
+        private string CheckRunningScoreValue(string score)
+        {
+            int tempScore;
+            for (var i = 1; i < 3; i++)
+            {
+                if (i == 1) tempScore = _score1;
+                else
+                {
+                    score += "-";
+                    tempScore = _score2;
+                }
+
+                switch (tempScore)
                 {
                     case 0:
-                        score = "Love-All";
+                        score += "Love";
                         break;
                     case 1:
-                        score = "Fifteen-All";
+                        score += "Fifteen";
                         break;
                     case 2:
-                        score = "Thirty-All";
+                        score += "Thirty";
                         break;
-                    default:
-                        score = "Deuce";
+                    case 3:
+                        score += "Forty";
                         break;
+                }
+            }
 
-                }
-            }
-            else if (_score1 >= 4 || _score2 >= 4)
-            {
-                var minusResult = _score1 - _score2;
-                if (minusResult == 1) score = $"Advantage {_player1Name}";
-                else if (minusResult == -1) score = $"Advantage {_player2Name}";
-                else if (minusResult >= 2) score = $"Win for {_player1Name}";
-                else score = $"Win for {_player2Name}";
-            }
+            return score;
+        }
+
+        private string CheckWinningScoreValue()
+        {
+            string score;
+            var minusResult = _score1 - _score2;
+            if (minusResult == 1) score = $"Advantage {_player1Name}";
+            else if (minusResult == -1) score = $"Advantage {_player2Name}";
+            else if (minusResult >= 2) score = $"Win for {_player1Name}";
+            else score = $"Win for {_player2Name}";
+            return score;
+        }
+
+        private string CheckEqualScoreValue()
+        {
+            string score;
+            if (_score1 == 0)
+                score = "Love-All";
+            else if (_score1 == 1)
+                score = "Fifteen-All";
+            else if (_score1 == 2)
+                score = "Thirty-All";
             else
-            {
-                for (var i = 1; i < 3; i++)
-                {
-                    if (i == 1) tempScore = _score1;
-                    else { score += "-"; tempScore = _score2; }
-                    switch (tempScore)
-                    {
-                        case 0:
-                            score += "Love";
-                            break;
-                        case 1:
-                            score += "Fifteen";
-                            break;
-                        case 2:
-                            score += "Thirty";
-                            break;
-                        case 3:
-                            score += "Forty";
-                            break;
-                    }
-                }
-            }
+                score = "Deuce";
+
             return score;
         }
     }
 }
-
