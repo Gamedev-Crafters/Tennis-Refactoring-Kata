@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame1 : ITennisGame
@@ -40,17 +42,10 @@ namespace Tennis
                 return CheckEqualScoreValue();
             }
 
-            if ((_score1 >= 4 || _score2 >= 4) && (_score1 - _score2 == -1 || _score1 - _score2 == 1))
-            {
-                return CheckAdvantageScoreValue();
-            }
-
-            if (_score1 >= 4 || _score2 >= 4)
-            {
-                return CheckWinningScoreValue();
-            }
-
-            return CheckRunningScoreValue();
+            if (_score1 < 4 && _score2 < 4) return CheckRunningScoreValue();
+            
+            return Math.Abs(_score1 - _score2) == 1 
+                ? CheckAdvantageScoreValue() : CheckWinningScoreValue();
         }
 
         private string CheckAdvantageScoreValue()
