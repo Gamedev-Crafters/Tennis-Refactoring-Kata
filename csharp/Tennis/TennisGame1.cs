@@ -48,40 +48,15 @@ namespace Tennis
                 return score;
             }
 
-            score = CheckRunningScoreValue(score);
+            score = CheckRunningScoreValue();
             return score;
         }
 
-        private string CheckRunningScoreValue(string score)
+        private string CheckRunningScoreValue()
         {
-            int tempScore;
-            for (var i = 1; i < 3; i++)
-            {
-                if (i == 1) tempScore = _score1;
-                else
-                {
-                    score += "-";
-                    tempScore = _score2;
-                }
+            string[] scoreNames = { "Love", "Fifteen", "Thirty", "Forty" };
 
-                switch (tempScore)
-                {
-                    case 0:
-                        score += "Love";
-                        break;
-                    case 1:
-                        score += "Fifteen";
-                        break;
-                    case 2:
-                        score += "Thirty";
-                        break;
-                    case 3:
-                        score += "Forty";
-                        break;
-                }
-            }
-
-            return score;
+            return scoreNames[_score1] + "-" + scoreNames[_score2];
         }
 
         private string CheckWinningScoreValue()
