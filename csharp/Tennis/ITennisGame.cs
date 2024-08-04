@@ -6,4 +6,3 @@ namespace Tennis
         string GetScore();
     }
 }
-
